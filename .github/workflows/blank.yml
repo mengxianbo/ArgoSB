@@ -1,0 +1,1 @@
+nix=y uuid=28770716-93f7-4a6b-bba6-8f99c1f50a67 vmpt=26980 agn=idx.jianxian.nyc.mn agk=eyJhIjoiOTVmMTZlNGFmMmM3YjNkOGY3M2IzN2VhZWZhZDNkZWMiLCJ0IjoiNWE0ODQ0YjItNTdhZC00ZTkyLTg1OTItNzM4YzI2ZjRkMzMzIiwicyI6IlkyVTFOREJrTWpjdFpHRTBNQzAwWWpRM0xUZ3pZV1l0TkRkaFlqTTNZbU5qTURBdyJ9 bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosb/main/argosb.sh)
