@@ -5,7 +5,7 @@
 <img width="757" height="255" alt="d89e2542c513e705106371acc7fa1d33" src="https://github.com/user-attachments/assets/7d7a4678-4223-478c-afe2-d303ba0f85a4" />
 
 
-### 【Argosbx当前版本：V25.9.18】
+### 【Argosbx当前版本：V25.9.29】
 
 ---------------------------------------
 
@@ -15,7 +15,7 @@
 
 #### 3、支持Docker镜像部署，公开镜像库：```ygkkk/argosbx```
 
-#### 4、支持NIX容器系统，特别推荐[IDX-Google](https://idx.google.com/)、[Clawcloud爪云](https://run.claw.cloud)、[CloudCat](https://cloud.cloudcat.one)、[Sap](https://www.sap.com/products/technology-platform/trial.html)
+#### 4、支持NIX容器系统，特别推荐[IDX-Google](https://idx.google.com/)、[Clawcloud爪云](https://run.claw.cloud)、[CloudCat](https://cloud.cloudcat.one)、[Sap](https://github.com/yonggekkk/argosbx/blob/main/SAP.md)
 
 #### 5、根据Sing-box与Xray不同内核，可选15种WARP出站组合，更换落地IP为WARP的IP，解锁流媒体
 
@@ -45,7 +45,7 @@
 | 13、argo固定隧道域名 | agn | 托管在CF上的域名 | 使用临时隧道 | 使用临时隧道 | 可选，argo填写y才可激活固定隧道|
 | 14、argo固定隧道token | agk | CF获取的ey开头的token | 使用临时隧道 | 使用临时隧道 | 可选，argo填写y才可激活固定隧道 |
 | 15、uuid密码 | uuid | 符合uuid规定格式 | 随机生成 | 随机生成 | 可选 |
-| 16、reality域名（仅支持reality类协议） | reym | 符合reality域名规定 | amd官网 | amd官网 | 可选，使用CF类域名时，可用作ProxyIP/客户端地址反代IP（建议高位端口或纯IPV6下使用，以防被扫泄露）|
+| 16、reality域名（仅支持reality类协议） | reym | 符合reality域名规定 | amd官网 | amd官网 | 可选，使用CF类域名时：服务器ip:节点端口的组合，可作为ProxyIP/客户端地址反代IP（建议高位端口或纯IPV6下使用，以防被扫泄露）|
 | 17、vmess-ws/vless-xhttp-v在客户端的host地址 | cdnym | CF解析IP的域名 | vmess-ws/vless-xhttp-v为直连 | vmess-ws/vless-xhttp-v为直连 | 可选，使用80系CDN或者回源CDN时可设置，否则客户端host地址需手动更改为CF解析IP的域名|
 | 18、切换ipv4或ipv6配置 | ippz | 填写4或者6 | 自动识别IP配置 | 自动识别IP配置 | 可选，4表示IPV4配置输出，6表示IPV6配置输出 |
 | 19、添加所有节点名称前缀 | name | 任意字符 | 默认协议名前缀 | 默认协议名前缀 | 可选 |
@@ -54,7 +54,7 @@
 
 ------------------------------------------------------------------
 
-* #### 如下图：一键SSH命令生成器：[点击视频教程，待发布](https://youtube.com/@ygkkk?sub_confirmation=1))
+* #### 如下图：一键SSH命令生成器：[点击视频教程](https://youtu.be/4u6W4c-t3oU)
 
 <img width="824" height="891" alt="0e046335a428e07073d370db621e843d" src="https://github.com/user-attachments/assets/5a41163d-7724-4615-a5ed-70a31dd5940f" />
 
@@ -108,7 +108,7 @@ Vless-Xhttp-Reality-V协议节点 (默认开启ML-KEM-768抗量子ENC加密)
 xhpt="" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
 
-Vless-Xhttp-V协议节点 (默认开启ML-KEM-768抗量子ENC加密)
+Vless-Xhttp-V协议节点 (默认开启ML-KEM-768抗量子ENC加密，IDX-Google-VPS容器支持)
 ```
 vxpt="" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
@@ -199,7 +199,11 @@ vxpt="80系端口、指定回源端口" cdnym="CF解析IP的域名" bash <(curl 
 
 更新中……
 
-最新推荐：[ArgoSB一键无交互小钢炮脚本💣（三）：内置15种WARP出站组合，轻松替代独立的WARP脚本](https://youtu.be/iywjT8fIka4)
+最新推荐：[🔥SAP搭建免费节点一条龙教程：多平台多账号搭建+保活一次搞定，支持Argo/workers/pags多种CDN方式](https://youtu.be/NRYZNKWoLj8)
+
+[ArgoSBX一键无交互小钢炮脚本💣（四）：一键SSH命令生成器发布，只要点几下，各大代理协议任你选](https://youtu.be/4u6W4c-t3oU)
+
+[ArgoSB一键无交互小钢炮脚本💣（三）：内置15种WARP出站组合，轻松替代独立的WARP脚本](https://youtu.be/iywjT8fIka4)
 
 [ArgoSB一键无交互小钢炮脚本💣（二）：代理节点的IP、端口被封依旧可用！ArgoSB脚本套CDN优选4大方案教程](https://youtu.be/RnUT1CNbCr8)
 
@@ -210,16 +214,6 @@ vxpt="80系端口、指定回源端口" cdnym="CF解析IP的域名" bash <(curl 
 [Claw.cloud免费VPS搭建代理最终教程（五）：ArgoSB脚本docker镜像更新支持AnyTLS、Xhttp-Reality](https://youtu.be/-mhZIhHRyno)
 
 [Claw.cloud免费VPS搭建代理最终教程（四）：最低仅1美分，4套价格+7组协议的套餐组合任你选；查看节点、重启升级、更换IP、更改配置的操作说明](https://youtu.be/xOQV_E1-C84)
-
-[Claw.cloud免费VPS搭建代理最终教程（三）：ArgoSB全能docker镜像发布，支持网页实时更新节点；TCP/UDP直连协议设置客户端"CDN"免墙域名](https://youtu.be/JEXyj9UoMzU)
-
-[Claw.cloud免费VPS搭建代理最终教程（二）：最低仅需2美分；支持Argo | Reality | Vmess | Hysteria2 | Tuic代理协议任意组合](https://youtu.be/NnuMgnJqon8)
-
-[Claw.cloud免费VPS搭建代理最终教程（一）：全网最简单 | 两大无交互回车脚本 | 套CDN优选IP | workers反代 | ArgoSB隧道搭建](https://youtu.be/Esofirx8xrE)
-
-[IDX Google免费VPS代理搭建教程（三）：NIX容器最新工作区方式搭建Argo免费节点 | 一次回车搞定一切 | Argo固定隧道一键复活](https://youtu.be/0I5eI1KKx08)
-
-[IDX Google免费VPS代理搭建教程（四）：支持重置后自动启动代理节点功能 | 最简单的保活方法](https://youtu.be/EGrz6Wvevqc)
 
 ----------------------------------------------------------
 
