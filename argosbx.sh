@@ -1261,7 +1261,18 @@ sbtk=$(cat "$HOME/agsbx/sbargotoken.log" 2>/dev/null)
 if [ -n "$sbtk" ]; then
 nametn="当前Argo固定隧道token：$sbtk"
 fi
-argoshow=$(echo "Vmess主协议端口(Argo隧道端口)：$port_vm_ws\n当前Argo域名：$argodomain\n$nametn\n\n1、💣443端口的vmess-ws-tls-argo节点(优选IP与443系端口随便换)\n$vmatls_link1\n\n2、💣80端口的vmess-ws-argo节点(优选IP与80系端口随便换)\n$vma_link7\n")
+argoshow=$(
+echo "Vmess主协议端口(Argo隧道端口)：$port_vm_ws
+当前Argo域名：$argodomain
+$nametn
+
+1、💣443端口的vmess-ws-tls-argo节点(优选IP与443系端口随便换)
+$vmatls_link1
+
+2、💣80端口的vmess-ws-argo节点(优选IP与80系端口随便换)
+$vma_link7
+"
+)
 fi
 echo "---------------------------------------------------------"
 echo "$argoshow"
