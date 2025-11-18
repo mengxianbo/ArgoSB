@@ -78,13 +78,16 @@ warpsx(){
 warpurl=$(curl -s --max-time 6 https://warp.renky.eu.org)
 if [ $? -eq 0 ] && [ -n "$warpurl" ]; then
 pvk=$(echo "$warpurl" | awk -F'：' '/Private_key/{print $2}' | xargs)
-v6=$(echo "$warpurl" | awk -F'：' '/IPV6/{print $2}' | xargs)
+wpv6=$(echo "$warpurl" | awk -F'：' '/IPV6/{print $2}' | xargs)
 res=$(echo "$warpurl" | awk -F'：' '/reserved/{print $2}' | xargs)
 else
-v6='2606:4700:110:8183:3f86:f0bc:49d1:814c'
+wpv6='2606:4700:110:8183:3f86:f0bc:49d1:814c'
 pvk='MkYdiGQL5er1aRFTs5nbiz5Yi2Pci0OMAAnqogIJv3I='
 res='[162, 227, 110]'
 fi
+echo "Private_key私钥：$pvk"
+echo "IPV6地址：$wpv6"
+echo "reserved值：$res"
 if [ -n "$name" ]; then
 sxname=$name-
 echo "$sxname" > "$HOME/agsbx/name"
@@ -708,7 +711,7 @@ cat >> "$HOME/agsbx/xr.json" <<EOF
         "secretKey": "${pvk}",
         "address": [
           "172.16.0.2/32",
-          "${v6}/128"
+          "${wpv6}/128"
         ],
         "peers": [
           {
@@ -808,7 +811,7 @@ cat >> "$HOME/agsbx/sb.json" <<EOF
       "tag": "warp-out",
       "address": [
         "172.16.0.2/32",
-        "${v6}/128"
+        "${wpv6}/128"
       ],
       "private_key": "${pvk}",
       "peers": [
