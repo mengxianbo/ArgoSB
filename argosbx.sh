@@ -38,7 +38,7 @@ export ippz=${ippz:-''}
 export warp=${warp:-''}
 export name=${name:-''}
 v46url="https://icanhazip.com"
-agsbxurl="https://raw.githubusercontent.com/yonggekkk/argosbx/beta/argosbx.sh"
+agsbxurl="https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh"
 showmode(){
 echo "Argosbx脚本一键SSH命令生器在线网址：https://yonggekkk.github.io/argosbx/"
 echo "主脚本：bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh) 或 bash <(wget -qO- https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)"
@@ -76,18 +76,15 @@ v6dq=$( (command -v curl >/dev/null 2>&1 && curl -s6m5 -k https://ip.fm | sed -E
 }
 warpsx(){
 warpurl=$(curl -s --max-time 6 https://warp.renky.eu.org)
-if [ $? -eq 0 ] && [ -n "$warpurl" ]; then
+if echo "$warpurl" | grep -q ygkkk; then
 pvk=$(echo "$warpurl" | awk -F'：' '/Private_key/{print $2}' | xargs)
 wpv6=$(echo "$warpurl" | awk -F'：' '/IPV6/{print $2}' | xargs)
 res=$(echo "$warpurl" | awk -F'：' '/reserved/{print $2}' | xargs)
 else
-wpv6='2606:4700:110:8183:3f86:f0bc:49d1:814c'
-pvk='MkYdiGQL5er1aRFTs5nbiz5Yi2Pci0OMAAnqogIJv3I='
-res='[162, 227, 110]'
+wpv6='2606:4700:110:8d8d:1845:c39f:2dd5:a03a'
+pvk='52cuYFgCJXp0LAq7+nWJIbCXXgU9eGggOc+Hlfz5u6A'
+res='[215, 69, 233]'
 fi
-echo "Private_key私钥：$pvk"
-echo "IPV6地址：$wpv6"
-echo "reserved值：$res"
 if [ -n "$name" ]; then
 sxname=$name-
 echo "$sxname" > "$HOME/agsbx/name"
