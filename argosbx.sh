@@ -75,6 +75,16 @@ v4dq=$( (command -v curl >/dev/null 2>&1 && curl -s4m5 -k https://ip.fm | sed -E
 v6dq=$( (command -v curl >/dev/null 2>&1 && curl -s6m5 -k https://ip.fm | sed -E 's/.*Location: ([^,]+(, [^,]+)*),.*/\1/' 2>/dev/null) || (command -v wget >/dev/null 2>&1 && timeout 3 wget -6 --tries=2 -qO- https://ip.fm | grep '<span class="has-text-grey-light">Location:' | tail -n1 | sed -E 's/.*>Location: <\/span>([^<]+)<.*/\1/' 2>/dev/null) )
 }
 warpsx(){
+warpurl=$(curl -s --max-time 6 https://ygkkk-warp.renky.eu.org)
+if echo "$warpurl" | grep -q ygkkk; then
+pvk=$(echo "$warpurl" | awk -F'：' '/Private_key/{print $2}' | xargs)
+wpv6=$(echo "$warpurl" | awk -F'：' '/IPV6/{print $2}' | xargs)
+res=$(echo "$warpurl" | awk -F'：' '/reserved/{print $2}' | xargs)
+else
+wpv6='2606:4700:110:8d8d:1845:c39f:2dd5:a03a'
+pvk='52cuYFgCJXp0LAq7+nWJIbCXXgU9eGggOc+Hlfz5u6A'
+res='[215, 69, 233]'
+fi
 if [ -n "$name" ]; then
 sxname=$name-
 echo "$sxname" > "$HOME/agsbx/name"
@@ -695,10 +705,10 @@ cat >> "$HOME/agsbx/xr.json" <<EOF
       "tag": "x-warp-out",
       "protocol": "wireguard",
       "settings": {
-        "secretKey": "COAYqKrAXaQIGL8+Wkmfe39r1tMMR80JWHVaF443XFQ=",
+        "secretKey": "${pvk}",
         "address": [
           "172.16.0.2/32",
-          "2606:4700:110:8eb1:3b27:e65e:3645:97b0/128"
+          "${wpv6}/128"
         ],
         "peers": [
           {
@@ -710,7 +720,7 @@ cat >> "$HOME/agsbx/xr.json" <<EOF
             "endpoint": "${xendip}:2408"
           }
         ],
-        "reserved": [134, 63, 85]
+        "reserved": ${res}
         }
     },
     {
@@ -798,9 +808,9 @@ cat >> "$HOME/agsbx/sb.json" <<EOF
       "tag": "warp-out",
       "address": [
         "172.16.0.2/32",
-        "2606:4700:110:8eb1:3b27:e65e:3645:97b0/128"
+        "${wpv6}/128"
       ],
-      "private_key": "COAYqKrAXaQIGL8+Wkmfe39r1tMMR80JWHVaF443XFQ=",
+      "private_key": "${pvk}",
       "peers": [
         {
           "address": "${sendip}",
@@ -810,7 +820,7 @@ cat >> "$HOME/agsbx/sb.json" <<EOF
             "0.0.0.0/0",
             "::/0"
           ],
-          "reserved": [134, 63, 85]
+          "reserved": $res
         }
       ]
     }
