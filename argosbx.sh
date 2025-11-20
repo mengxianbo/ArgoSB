@@ -1163,7 +1163,7 @@ case "$server_ip" in
 esac
 echo
 ym_vl_re=$(cat "$HOME/agsbx/ym_vl_re" 2>/dev/null)
-cfip() { od -An -N2 -tu2 /dev/urandom | tr -d ' ' | awk '{print $1 % 13 + 1}'; }
+cfip() { echo $((RANDOM % 13 + 1)); }
 if [ -e "$HOME/agsbx/xray" ]; then
 private_key_x=$(cat "$HOME/agsbx/xrk/private_key" 2>/dev/null)
 public_key_x=$(cat "$HOME/agsbx/xrk/public_key" 2>/dev/null)
