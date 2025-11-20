@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Argosbx一键SSH命令生成器</title>
+  <title>ArgoSBX一键SSH命令生成器-甬哥ygkkk</title>
   <style>
     :root {
       --bg:#0b1020;
@@ -45,10 +45,11 @@
       font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
       transition: background-color 0.3s, color 0.3s;
     }
+    /* 修改点1：增加最大宽度，使页面整体更宽 */
     .wrap {
-      max-width: 1100px;
+      max-width: 1450px; 
       margin: 32px auto;
-      padding: 0 16px;
+      padding: 0 20px;
     }
     header {
       position: relative;
@@ -84,9 +85,9 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto auto;
-      gap: 16px;
+      gap: 20px; /*稍微增加模块间距*/
     }
-    @media (max-width: 980px) {
+    @media (max-width: 1100px) { /* 修改点：调整触发单列布局的断点，适应更宽的布局 */
       .grid {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
@@ -117,7 +118,7 @@
       backdrop-filter: blur(6px);
       border: 1px solid var(--line);
       border-radius: 16px;
-      padding: 16px;
+      padding: 20px; /*稍微增加内边距*/
       transition: background-color 0.3s, border-color 0.3s;
     }
     .light-mode .card {
@@ -138,7 +139,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 8px; /* 为每个协议项添加一些垂直间距 */
+      margin-bottom: 8px;
     }
     .protocol-item label {
       white-space: nowrap;
@@ -147,8 +148,8 @@
       gap: 10px;
     }
     .protocol-item input[type="text"] {
-      flex-grow: 1; /* 让输入框填充剩余空间 */
-      min-width: 100px; /* 确保在小屏幕下也有足够的宽度 */
+      flex-grow: 1;
+      min-width: 100px;
       padding: 10px 12px;
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -157,21 +158,21 @@
       outline: none;
       transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     }
-    /* 新增的网格布局，用于完美对齐 */
     .protocol-grid {
       display: grid;
-      grid-template-columns: auto 1fr; /* 第一列自动宽度，第二列填充剩余空间 */
-      gap: 8px 12px; /* 行间距8px，列间距12px */
+      grid-template-columns: auto 1fr; 
+      gap: 10px 16px; /* 稍微增加网格间隙 */
       align-items: center;
     }
     .protocol-grid .protocol-item {
-      margin: 0; /* 在网格布局中，移除protocol-item的外部间距 */
+      margin: 0; 
     }
 
+    /* 修改点2：增加左侧标签栏宽度，从200px改为240px，防止文字拥挤 */
     .row:not(.protocol-port .row) {
       display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 12px;
+      grid-template-columns: 240px 1fr; 
+      gap: 16px;
       align-items: center;
       margin: 8px 0;
     }
@@ -385,7 +386,7 @@
           </svg>
         </label>
       </div>
-      <h1>Argosbx小钢炮💣一键SSH命令生成器 V25.9.18</h1>
+      <h1>ArgoSBX小钢炮脚本💣一键SSH命令生成器  V25.11.20</h1>
       <p>
         甬哥Github项目：
         <a href="https://github.com/yonggekkk" target="_blank">github.com/yonggekkk</a><br>
@@ -402,9 +403,10 @@
         <div class="protocol-group separator">
           <h3>Xray可选协议：</h3>
           <div class="protocol-grid">
-            <label><input type="checkbox" data-proto="vlpt"> Vless-Tcp-Reality-V <span class="pill">vlpt</span></label><input type="text" placeholder="留空则随机端口" data-port="vlpt">
-            <label><input type="checkbox" data-proto="xhpt"> Vless-Xhttp-Reality-V <span class="pill">xhpt</span></label><input type="text" placeholder="留空则随机端口" data-port="xhpt">
-            <label><input type="checkbox" data-proto="vxpt"> Vless-Xhttp-V <span class="pill">vxpt</span></label><input type="text" placeholder="留空则随机端口" data-port="vxpt">
+            <label><input type="checkbox" data-proto="vlpt"> Vless-tcp-reality-v <span class="pill">vlpt</span></label><input type="text" placeholder="留空则随机端口" data-port="vlpt">
+            <label><input type="checkbox" data-proto="xhpt"> Vless-xhttp-reality-enc <span class="pill">xhpt</span></label><input type="text" placeholder="留空则随机端口" data-port="xhpt">
+            <label><input type="checkbox" data-proto="vxpt"> Vless-xhttp-enc <span class="pill">vxpt</span></label><input type="text" placeholder="留空则随机端口" data-port="vxpt">
+            <label><input type="checkbox" data-proto="vwpt"> Vless-ws-enc <span class="pill">vwpt</span></label><input type="text" placeholder="留空则随机端口（Argo固定隧道必填URL端口）" data-port="vwpt">
           </div>
         </div>
         <div class="protocol-group separator">
@@ -413,7 +415,7 @@
             <label><input type="checkbox" data-proto="hypt"> Hysteria2 <span class="pill">hypt</span></label><input type="text" placeholder="留空则随机端口" data-port="hypt">
             <label><input type="checkbox" data-proto="tupt"> Tuic <span class="pill">tupt</span></label><input type="text" placeholder="留空则随机端口" data-port="tupt">
             <label><input type="checkbox" data-proto="anpt"> AnyTLS <span class="pill">anpt</span></label><input type="text" placeholder="留空则随机端口" data-port="anpt">
-            <label><input type="checkbox" data-proto="arpt"> Any-Reality <span class="pill">arpt</span></label><input type="text" placeholder="留空则随机端口" data-port="arpt">
+            <label><input type="checkbox" data-proto="arpt"> Any-reality <span class="pill">arpt</span></label><input type="text" placeholder="留空则随机端口" data-port="arpt">
             <label><input type="checkbox" data-proto="sspt"> Shadowsocks-2022 <span class="pill">sspt</span></label><input type="text" placeholder="留空则随机端口" data-port="sspt">
           </div>
         </div>
@@ -421,7 +423,7 @@
           <h3>Xray/Singbox自动分配协议：</h3>
           <div class="protocol-grid">
             <label><input type="checkbox" data-proto="sopt"> Socks5 <span class="pill">sopt</span></label><input type="text" placeholder="留空则随机端口" data-port="sopt">
-            <label><input type="checkbox" data-proto="vmpt"> Vmess-ws <span class="pill">vmpt</span></label><input type="text" placeholder="留空则随机端口（Argo固定隧道填写URL端口）" data-port="vmpt">
+            <label><input type="checkbox" data-proto="vmpt"> Vmess-ws <span class="pill">vmpt</span></label><input type="text" placeholder="留空则随机端口（Argo固定隧道必填URL端口）" data-port="vmpt">
           </div>
         </div>
       </section>
@@ -436,7 +438,7 @@
           </div>
         </div>
         <div class="row"><label>Reality 域名 <span class="pill">reym</span></label><input id="reym" type="text" placeholder="留空则默认apple.com"/></div>
-        <div class="row"><label>CF解析IP的域名<span class="pill">cdnym</span></label><input id="cdnym" type="text" placeholder="仅Vmess-ws或Vless-Xhttp-V套CDN时可用" disabled/></div>
+        <div class="row"><label>CF解析IP的域名<span class="pill">cdnym</span></label><input id="cdnym" type="text" placeholder="Vmess-ws、Vless-xhttp/ws-enc启用本地IP端口CDN时可用" disabled/></div>
         <div class="row"><label>套WARP-IP出站 <span class="pill">warp</span></label>
           <select id="warp">
             <option value="">默认 服务器本地IP出站</option>
@@ -465,17 +467,25 @@
             <option value="6">导出 IPv6</option>
           </select>
         </div>
+        <div class="row">
+          <label>当前系统开放所有端口 <span class="pill">oap</span></label>
+          <select id="oap">
+            <option value="">默认 关闭</option>
+            <option value="y">开启 执行一次即可关闭</option>
+          </select>
+        </div>
         <div class="row"><label>导出节点名称前缀 <span class="pill">name</span></label><input id="name" type="text" placeholder="留空则默认协议名前缀"/></div>
       </section>
 
       <section class="card argo-tunnel">
-        <h2>Argo临时/固定隧道：</h2>
+        <h2>Argo临时/固定隧道CDN：</h2>
+        <label>当Vmess-ws、Vless-ws-enc同时开启时，Vmess-ws优先启用Argo</label>
         <div class="row">
-          <label>启用Argo <span class="pill">argo</span></label>
+          <label>启用Argo隧道开关 <span class="pill">argo</span></label>
           <div id="argoBtn" class="switch" role="switch" aria-checked="false"></div>
         </div>
-        <div class="row"><label>固定隧道CF域名 <span class="pill">agn</span></label><input id="agn" type="text" placeholder="解析在CF的域名，留空则临时隧道" disabled></div>
-        <div class="row"><label>固定隧道Token <span class="pill">agk</span></label><input id="agk" type="text" placeholder="ey开头的秘钥，留空则临时隧道" disabled></div>
+        <div class="row"><label>固定隧道CF域名 <span class="pill">agn</span></label><input id="agn" type="text" placeholder="Zero Trust已设置有子域名称的CF域名，留空则临时隧道" disabled></div>
+        <div class="row"><label>固定隧道Token <span class="pill">agk</span></label><input id="agk" type="text" placeholder="Zero Trust已提取ey开头的秘钥，留空则临时隧道" disabled></div>
       </section>
 
       <section class="card shortcut-commands-card">
@@ -503,6 +513,9 @@
           <button id="copy">复制</button>
         </div>
         <p style="margin-top: 10px;">相关操作及视频教程说明，请参考Argosbx小钢炮脚本项目💣：<a href="https://github.com/yonggekkk/argosbx" target="_blank">github.com/yonggekkk/argosbx</a></p>
+        <p style="margin-top: 10px;">安卓手机客户端推荐 (Argosbx全协议支持)：<a href="https://github.com/starifly/NekoBoxForAndroid/releases" target="_blank">github.com/starifly/NekoBoxForAndroid</a></p>
+        <p style="margin-top: 10px;">电脑win客户端推荐 (Argosbx全协议支持)：<a href="https://github.com/2dust/v2rayN/releases" target="_blank">github.com/2dust/v2rayN</a></p>
+        <label>苹果IOS客户端推荐 (Argosbx部分协议支持)：Shadowrocket(小火箭)、OneXray、Streisand</label>
       </section>
     </div>
   </div>
@@ -512,16 +525,17 @@
   // Bash命令常量
   const CURL = 'bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)';
   const WGET = 'bash <(wget -qO- https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)';
-  // 协议键名
-  const protoKeys = ['sopt','vmpt','vlpt','xhpt','vxpt','arpt','anpt','hypt','tupt','sspt'];
-  // 可选参数ID
-  const optIds = ['warp','ippz','uuid','reym','cdnym','name'];
+  // 协议键名 (加入 vwpt)
+  const protoKeys = ['sopt','vmpt','vlpt','xhpt','vxpt','vwpt','arpt','anpt','hypt','tupt','sspt'];
+  // 可选参数ID (加入 oap)
+  const optIds = ['warp','ippz','uuid','reym','cdnym','name', 'oap'];
 
   // DOM元素引用
   const argoSwitch = document.getElementById('argoBtn');
   const agn = document.getElementById('agn');
   const agk = document.getElementById('agk');
   const vmessWsCheckbox = document.querySelector('[data-proto="vmpt"]');
+  const vlessWsVCheckbox = document.querySelector('[data-proto="vwpt"]');
   const vlessXhttpCheckbox = document.querySelector('[data-proto="vxpt"]');
   const cdnymInput = document.getElementById('cdnym');
   const output = document.getElementById('output');
@@ -529,6 +543,7 @@
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   const textInputs = document.querySelectorAll('input[type="text"]');
   const ippzSelect = document.getElementById('ippz');
+  const oapSelect = document.getElementById('oap'); // 新增
   const generateUuidBtn = document.getElementById('generateUuidBtn');
   const uuidInput = document.getElementById('uuid');
   const themeSwitchCheckbox = document.getElementById('theme-switch-checkbox');
@@ -580,6 +595,7 @@
     if (!preserveIppz) {
         ippzSelect.value = '';
     }
+    oapSelect.value = ''; // 重置oap
     document.getElementById('uuid').value = '';
     document.getElementById('reym').value = '';
     document.getElementById('name').value = '';
@@ -588,16 +604,16 @@
   }
 
   /**
-   * 根据Vmess-ws协议或VLESS-Xhttp协议的选择状态更新cdnym输入框的禁用状态。
+   * 根据Vmess-ws协议、VLESS-Xhttp协议或Vless-ws-v的选择状态更新cdnym输入框的禁用状态。
    */
   function updateCdnymState() {
-      // 检查Vmess-ws或VLESS-Xhttp协议是否被选中
-      const isAnyProtocolChecked = vmessWsCheckbox.checked || vlessXhttpCheckbox.checked;
+      // 检查Vmess-ws或VLESS-Xhttp或Vless-ws-v协议是否被选中
+      const isAnyProtocolChecked = vmessWsCheckbox.checked || vlessXhttpCheckbox.checked || vlessWsVCheckbox.checked;
       
       // 如果任何一个协议被选中，则启用输入框，否则禁用它
       cdnymInput.disabled = !isAnyProtocolChecked;
       
-      // 如果两个协议都没有被选中，则清空输入框的值
+      // 如果所有协议都没有被选中，则清空输入框的值
       if (!isAnyProtocolChecked) {
           cdnymInput.value = '';
       }
@@ -609,8 +625,12 @@
   // Argo开关事件监听
   argoSwitch.addEventListener('click', () => {
     const on = !argoSwitch.classList.contains('on');
+    // 修改 Argo 开启逻辑：如果选择了 Vless-ws-v (vwpt)，则不需要强制开启 vmess-ws (vmpt)
+    // 只有在 vwpt 未选中的情况下，才强制选中 vmpt
     if (on) {
-      vmessWsCheckbox.checked = true;
+      if (!vlessWsVCheckbox.checked) {
+        vmessWsCheckbox.checked = true;
+      }
     }
     updateArgoState(on);
     updateCdnymState();
@@ -619,13 +639,26 @@
   // Vmess-ws复选框事件监听
   vmessWsCheckbox.addEventListener('change', () => {
     if (!vmessWsCheckbox.checked) {
-      updateArgoState(false);
+      // 如果取消了 vmess-ws，且 vless-ws-v 也没被选中，则关闭 argo
+      if (!vlessWsVCheckbox.checked) {
+          updateArgoState(false);
+      }
     }
     updateCdnymState();
     render();
   });
   
-  // VLESS-Xhttp复选框事件监听（新增）
+  // VLESS-ws-v 复选框事件监听
+  vlessWsVCheckbox.addEventListener('change', () => {
+      // 如果取消勾选 vwpt，且 vmpt 也没勾选，则关闭 argo
+      if (!vlessWsVCheckbox.checked && !vmessWsCheckbox.checked) {
+          updateArgoState(false);
+      }
+      updateCdnymState(); // 确保调用以更新 cdnym 状态
+      render();
+  });
+  
+  // VLESS-Xhttp复选框事件监听
   vlessXhttpCheckbox.addEventListener('change', () => {
     updateCdnymState();
     render();
@@ -657,14 +690,8 @@
         }
       }
 
-      // Vmess-ws 协议的特殊处理
-      if (ck.getAttribute('data-proto') === 'vmpt') {
-        if (!ck.checked) {
-          updateArgoState(false);
-        }
-      }
-      // 对于 Vmess-ws 和 VLESS-Xhttp，调用更新函数
-      if (ck.getAttribute('data-proto') === 'vmpt' || ck.getAttribute('data-proto') === 'vxpt') {
+      // 对于 Vmess-ws, VLESS-Xhttp 和 Vless-ws-v，调用更新函数
+      if (ck.getAttribute('data-proto') === 'vmpt' || ck.getAttribute('data-proto') === 'vxpt' || ck.getAttribute('data-proto') === 'vwpt') {
           updateCdnymState();
       }
       render();
@@ -727,6 +754,8 @@
     ['warp', 'uuid', 'reym', 'cdnym', 'name', 'ippz'].forEach(k => { if (keys.includes(k)) ordered.push(k); });
     if (keys.includes('argo')) ordered.push('argo');
     ['agn', 'agk'].forEach(k => { if (keys.includes(k)) ordered.push(k); });
+    // Add oap to ordering if present (now covered by optIds logic generally, but keeping explicit for preferred order if needed)
+    if (keys.includes('oap')) ordered.push('oap');
     keys.forEach(k => { if (!ordered.includes(k)) ordered.push(k); });
 
     return ordered.map(k => {
@@ -811,5 +840,3 @@
 </script>
 </body>
 </html>
-
-
