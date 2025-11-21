@@ -167,7 +167,7 @@ Vmess-ws-argo临时隧道CDN优选节点
 vmpt="" argo="vmpt" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
 
-Vless-ws-vision-enc-Argo临时隧道CDN优选节点
+Vless-ws-vision-enc-argo临时隧道CDN优选节点
 ```
 vwpt="" argo="vwpt" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
@@ -177,7 +177,7 @@ Vmess-ws-argo-argo固定隧道CDN优选节点，必须填写端口(vmpt)、域�
 vmpt="CF设置的URL端口" argo="vmpt" agn="解析的CF域名" agk="CF获取的token" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
 
-Vless-ws-vision-enc-Argo固定隧道CDN优选节点，必须填写端口(vmpt)、域名(agn)、token(agk)
+Vless-ws-vision-enc-argo固定隧道CDN优选节点，必须填写端口(vmpt)、域名(agn)、token(agk)
 ```
 vwpt="CF设置的URL端口" argo="vwpt" agn="解析的CF域名" agk="CF获取的token" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
