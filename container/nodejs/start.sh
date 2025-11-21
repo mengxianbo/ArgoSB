@@ -1125,7 +1125,7 @@ echo
 fi
 fi
 if grep reality-vision "$HOME/agsbx/xr.json" >/dev/null 2>&1; then
-echo "💣【 Vless-tcp-reality-v 】节点信息如下："
+echo "💣【 Vless-tcp-reality-vision 】节点信息如下："
 vlpt=$(cat "$HOME/agsbx/vlpt")
 vl_link="vless://$uuid@$server_ip:$vlpt?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$reym&fp=chrome&pbk=$public_key_x&sid=$short_id_x&type=tcp&headerType=none#${sxname}vl-reality-vision-$hostname"
 echo "$vl_link" >> "$HOME/agsbx/jh.txt"
