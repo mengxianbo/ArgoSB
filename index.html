@@ -45,7 +45,6 @@
       font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
       transition: background-color 0.3s, color 0.3s;
     }
-    /* 修改点1：增加最大宽度，使页面整体更宽 */
     .wrap {
       max-width: 1450px; 
       margin: 32px auto;
@@ -85,9 +84,9 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto auto;
-      gap: 20px; /*稍微增加模块间距*/
+      gap: 20px;
     }
-    @media (max-width: 1100px) { /* 修改点：调整触发单列布局的断点，适应更宽的布局 */
+    @media (max-width: 1100px) {
       .grid {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
@@ -118,7 +117,7 @@
       backdrop-filter: blur(6px);
       border: 1px solid var(--line);
       border-radius: 16px;
-      padding: 20px; /*稍微增加内边距*/
+      padding: 20px;
       transition: background-color 0.3s, border-color 0.3s;
     }
     .light-mode .card {
@@ -161,14 +160,12 @@
     .protocol-grid {
       display: grid;
       grid-template-columns: auto 1fr; 
-      gap: 10px 16px; /* 稍微增加网格间隙 */
+      gap: 10px 16px;
       align-items: center;
     }
     .protocol-grid .protocol-item {
       margin: 0; 
     }
-
-    /* 修改点2：增加左侧标签栏宽度，从200px改为240px，防止文字拥挤 */
     .row:not(.protocol-port .row) {
       display: grid;
       grid-template-columns: 240px 1fr; 
@@ -386,7 +383,7 @@
           </svg>
         </label>
       </div>
-      <h1>ArgoSBX小钢炮脚本💣一键SSH命令生成器  V25.11.20</h1>
+      <h1>ArgoSBX小钢炮脚本💣一键SSH命令生成器 V25.11.20</h1>
       <p>
         甬哥Github项目：
         <a href="https://github.com/yonggekkk" target="_blank">github.com/yonggekkk</a><br>
@@ -479,10 +476,13 @@
 
       <section class="card argo-tunnel">
         <h2>Argo临时/固定隧道CDN：</h2>
-        <label>当Vmess-ws、Vless-ws-enc同时开启时，Vmess-ws优先启用Argo</label>
         <div class="row">
           <label>启用Argo隧道开关 <span class="pill">argo</span></label>
-          <div id="argoBtn" class="switch" role="switch" aria-checked="false"></div>
+          <select id="argoSelect">
+            <option value="">默认 关闭</option>
+            <option value="vwpt">启用Vless-ws-enc的Argo隧道 (vwpt自动启用Vless-ws-enc)</option>
+            <option value="vmpt">启用Vmess-ws的Argo隧道 (vmpt自动启用Vmess-ws)</option>
+          </select>
         </div>
         <div class="row"><label>固定隧道CF域名 <span class="pill">agn</span></label><input id="agn" type="text" placeholder="Zero Trust已设置有子域名称的CF域名，留空则临时隧道" disabled></div>
         <div class="row"><label>固定隧道Token <span class="pill">agk</span></label><input id="agk" type="text" placeholder="Zero Trust已提取ey开头的秘钥，留空则临时隧道" disabled></div>
@@ -523,16 +523,12 @@
 
 <script>
 (function(){
-  // Bash命令常量
   const CURL = 'bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)';
   const WGET = 'bash <(wget -qO- https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)';
-  // 协议键名 (加入 vwpt)
   const protoKeys = ['sopt','vmpt','vlpt','xhpt','vxpt','vwpt','arpt','anpt','hypt','tupt','sspt'];
-  // 可选参数ID (加入 oap)
   const optIds = ['warp','ippz','uuid','reym','cdnym','name', 'oap'];
 
-  // DOM元素引用
-  const argoSwitch = document.getElementById('argoBtn');
+  const argoSelect = document.getElementById('argoSelect');
   const agn = document.getElementById('agn');
   const agk = document.getElementById('agk');
   const vmessWsCheckbox = document.querySelector('[data-proto="vmpt"]');
@@ -544,13 +540,12 @@
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   const textInputs = document.querySelectorAll('input[type="text"]');
   const ippzSelect = document.getElementById('ippz');
-  const oapSelect = document.getElementById('oap'); // 新增
+  const oapSelect = document.getElementById('oap');
   const generateUuidBtn = document.getElementById('generateUuidBtn');
   const uuidInput = document.getElementById('uuid');
   const themeSwitchCheckbox = document.getElementById('theme-switch-checkbox');
   const commandTypeRadios = document.querySelectorAll('input[name="commandType"]');
 
-  // 初始化主题
   function initTheme() {
     const isLightMode = localStorage.getItem('theme') === 'light';
     if (isLightMode) {
@@ -559,31 +554,23 @@
     }
   }
 
-  // 切换主题
   function toggleTheme() {
     document.body.classList.toggle('light-mode');
     const isLightMode = document.body.classList.contains('light-mode');
     localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
   }
 
-  // 为主题切换复选框添加事件监听器
   themeSwitchCheckbox.addEventListener('change', toggleTheme);
 
-  /**
-   * 更新Argo隧道开关的状态和相关输入框的禁用状态。
-   * @param {boolean} isEnabled - 是否启用Argo隧道。
-   */
-  function updateArgoState(isEnabled) {
-    argoSwitch.classList.toggle('on', isEnabled);
-    argoSwitch.setAttribute('aria-checked', isEnabled ? 'true' : 'false');
+  function updateArgoState(argoValue) {
+    const isEnabled = argoValue !== '';
+    if (!isEnabled) {
+      agn.value = '';
+      agk.value = '';
+    }
     [agn, agk].forEach(i => i.disabled = !isEnabled);
-    render();
   }
 
-  /**
-   * 重置所有表单输入到默认状态。
-   * @param {boolean} preserveIppz - 是否保留ippz的值。
-   */
   function resetForm(preserveIppz = false) {
     checkboxes.forEach(cb => {
         cb.checked = false;
@@ -592,81 +579,74 @@
         inp.value = '';
     });
     document.getElementById('warp').value = '';
-    // 如果不保留ippz，则重置其值
     if (!preserveIppz) {
         ippzSelect.value = '';
     }
-    oapSelect.value = ''; // 重置oap
+    oapSelect.value = '';
     document.getElementById('uuid').value = '';
     document.getElementById('reym').value = '';
     document.getElementById('name').value = '';
-    updateArgoState(false);
+    argoSelect.value = '';
+    updateArgoState('');
     updateCdnymState();
   }
 
-  /**
-   * 根据Vmess-ws协议、VLESS-Xhttp协议或Vless-ws-v的选择状态更新cdnym输入框的禁用状态。
-   */
   function updateCdnymState() {
-      // 检查Vmess-ws或VLESS-Xhttp或Vless-ws-v协议是否被选中
       const isAnyProtocolChecked = vmessWsCheckbox.checked || vlessXhttpCheckbox.checked || vlessWsVCheckbox.checked;
       
-      // 如果任何一个协议被选中，则启用输入框，否则禁用它
       cdnymInput.disabled = !isAnyProtocolChecked;
       
-      // 如果所有协议都没有被选中，则清空输入框的值
       if (!isAnyProtocolChecked) {
           cdnymInput.value = '';
       }
       render();
   }
 
-  // --- 事件监听器 ---
+  argoSelect.addEventListener('change', () => {
+    const argoValue = argoSelect.value;
+    const isEnabled = argoValue !== '';
+    
+    [agn, agk].forEach(i => i.disabled = !isEnabled);
 
-  // Argo开关事件监听
-  argoSwitch.addEventListener('click', () => {
-    const on = !argoSwitch.classList.contains('on');
-    // 修改 Argo 开启逻辑：如果选择了 Vless-ws-v (vwpt)，则不需要强制开启 vmess-ws (vmpt)
-    // 只有在 vwpt 未选中的情况下，才强制选中 vmpt
-    if (on) {
-      if (!vlessWsVCheckbox.checked) {
+    if (argoValue === 'vwpt') {
+        vlessWsVCheckbox.checked = true;
+    } else if (argoValue === 'vmpt') {
         vmessWsCheckbox.checked = true;
-      }
+    } 
+
+    if (!isEnabled) {
+        agn.value = '';
+        agk.value = '';
     }
-    updateArgoState(on);
-    updateCdnymState();
+
+    updateCdnymState(); 
+    render();
   });
 
-  // Vmess-ws复选框事件监听
   vmessWsCheckbox.addEventListener('change', () => {
-    if (!vmessWsCheckbox.checked) {
-      // 如果取消了 vmess-ws，且 vless-ws-v 也没被选中，则关闭 argo
-      if (!vlessWsVCheckbox.checked) {
-          updateArgoState(false);
-      }
+    if (!vmessWsCheckbox.checked && argoSelect.value === 'vmpt') { 
+       argoSelect.value = '';
+       updateArgoState('');
     }
     updateCdnymState();
     render();
   });
   
-  // VLESS-ws-v 复选框事件监听
   vlessWsVCheckbox.addEventListener('change', () => {
-      // 如果取消勾选 vwpt，且 vmpt 也没勾选，则关闭 argo
-      if (!vlessWsVCheckbox.checked && !vmessWsCheckbox.checked) {
-          updateArgoState(false);
+      if (!vlessWsVCheckbox.checked && argoSelect.value === 'vwpt') { 
+         argoSelect.value = '';
+         updateArgoState('');
       }
-      updateCdnymState(); // 确保调用以更新 cdnym 状态
+      updateCdnymState(); 
       render();
   });
   
-  // VLESS-Xhttp复选框事件监听
   vlessXhttpCheckbox.addEventListener('change', () => {
     updateCdnymState();
     render();
   });
 
 
-  // 端口输入框事件监听，如果输入了端口则自动选中对应协议
   document.querySelectorAll('[data-port]').forEach(inp => {
     inp.addEventListener('input', () => {
       const key = inp.getAttribute('data-port');
@@ -675,14 +655,16 @@
       if (inp.value.trim() !== '' && !ck.checked) {
         ck.checked = true;
       }
+      
+      if (key === 'vmpt' || key === 'vwpt' || key === 'vxpt') {
+        updateCdnymState();
+      }
       render();
     });
   });
 
-  // 协议复选框事件监听，用于触发渲染
   document.querySelectorAll('[data-proto]').forEach(ck => {
     ck.addEventListener('change', () => {
-      // 当取消勾选时，自动清空对应的端口输入框
       if (!ck.checked) {
         const key = ck.getAttribute('data-proto');
         const pt = document.querySelector(`[data-port="${key}"]`);
@@ -691,7 +673,6 @@
         }
       }
 
-      // 对于 Vmess-ws, VLESS-Xhttp 和 Vless-ws-v，调用更新函数
       if (ck.getAttribute('data-proto') === 'vmpt' || ck.getAttribute('data-proto') === 'vxpt' || ck.getAttribute('data-proto') === 'vwpt') {
           updateCdnymState();
       }
@@ -699,23 +680,15 @@
     });
   });
 
-  // UUID生成按钮事件监听
   generateUuidBtn.addEventListener('click', () => {
     uuidInput.value = crypto.randomUUID();
     render();
   });
 
-  // 命令类型单选框事件监听
   commandTypeRadios.forEach(radio => {
     radio.addEventListener('change', render);
   });
 
-  // --- 核心功能函数 ---
-
-  /**
-   * 收集所有表单变量。
-   * @returns {Object} 包含所有已选择或填写的变量的对象。
-   */
   function collectVars(){
     const m = {};
     protoKeys.forEach(k => {
@@ -733,29 +706,29 @@
         m[id] = v;
       }
     });
-    if (argoSwitch.classList.contains('on')) {
-      m['argo'] = 'y';
+    
+    const argoValue = argoSelect.value;
+    if (argoValue !== '') {
+      m['argo'] = argoValue; 
+      
       const _agn = (agn.value || '').trim();
       const _agk = (agk.value || '').trim();
-      if (_agn) m['agn'] = _agn;
-      if (_agk) m['agk'] = _agk;
+      
+      if (!agn.disabled && _agn) m['agn'] = _agn;
+      if (!agk.disabled && _agk) m['agk'] = _agk;
     }
+    
     return m;
   }
 
-  /**
-   * 将变量对象转换为bash命令字符串。
-   * @param {Object} m - 包含变量的对象。
-   * @returns {string} 格式化后的bash变量字符串。
-   */
   function toBashVars(m){
     const keys = Object.keys(m);
     const ordered = [];
     protoKeys.forEach(k => { if (keys.includes(k)) ordered.push(k); });
     ['warp', 'uuid', 'reym', 'cdnym', 'name', 'ippz'].forEach(k => { if (keys.includes(k)) ordered.push(k); });
     if (keys.includes('argo')) ordered.push('argo');
-    ['agn', 'agk'].forEach(k => { if (keys.includes(k)) ordered.push(k); });
-    // Add oap to ordering if present (now covered by optIds logic generally, but keeping explicit for preferred order if needed)
+    if (keys.includes('agn')) ordered.push('agn');
+    if (keys.includes('agk')) ordered.push('agk');
     if (keys.includes('oap')) ordered.push('oap');
     keys.forEach(k => { if (!ordered.includes(k)) ordered.push(k); });
 
@@ -769,9 +742,6 @@
     }).join(' ');
   }
 
-  /**
-   * 渲染并更新输出文本区域。
-   */
   function render(){
     const m = collectVars();
     const vars = toBashVars(m);
@@ -779,18 +749,15 @@
     output.value = (vars ? vars + ' ' : '') + selectedCommand;
   }
 
-  // 初始化渲染
   initTheme();
   updateCdnymState();
   render();
 
-  // 为所有输入元素添加事件监听器，实时更新命令
   allInputs.forEach(el => {
     el.addEventListener('input', render);
     el.addEventListener('change', render);
   });
   
-  // 快捷命令按钮事件监听
   document.querySelectorAll('.command-button').forEach(btn => {
     btn.addEventListener('click', () => {
       const command = btn.getAttribute('data-command');
@@ -817,20 +784,14 @@
     });
   });
 
-  // 复制按钮事件监听
   document.getElementById('copy').addEventListener('click', async () => {
     const t = document.getElementById('output');
     t.select(); t.setSelectionRange(0, 99999);
     try { await navigator.clipboard.writeText(t.value); showToast('已复制到剪贴板'); } catch (e) { document.execCommand('copy'); showToast('已复制'); }
   });
 
-  // 重置按钮事件监听
   document.getElementById('reset').addEventListener('click', () => { location.reload(); });
 
-  /**
-   * 显示一个短暂的提示消息。
-   * @param {string} msg - 要显示的文本消息。
-   */
   function showToast(msg) {
     const d = document.createElement('div');
     d.textContent = msg; d.style.position = 'fixed'; d.style.left = '50%'; d.style.top = '20px'; d.style.transform = 'translateX(-50%)';
@@ -841,4 +802,3 @@
 </script>
 </body>
 </html>
-
