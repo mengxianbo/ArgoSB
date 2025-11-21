@@ -1293,6 +1293,7 @@ fi
 argodomain=$(cat "$HOME/agsbx/sbargoym.log" 2>/dev/null)
 [ -z "$argodomain" ] && argodomain=$(grep -a trycloudflare.com "$HOME/agsbx/argo.log" 2>/dev/null | awk 'NR==2{print}' | awk -F// '{print $2}' | awk '{print $1}')
 if [ -n "$argodomain" ]; then
+vlvm=$(cat $HOME/agsbx/vlvm 2>/dev/null)
 if [ "$argo" = "vmy" ]; then
 vmatls_link1="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-tls-argo-$hostname-443\", \"add\": \"yg1.ygkkk.dpdns.org\", \"port\": \"443\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"tls\", \"sni\": \"$argodomain\", \"alpn\": \"\", \"fp\": \"chrome\"}" | base64 -w0)"
 echo "$vmatls_link1" >> "$HOME/agsbx/jh.txt"
@@ -1331,14 +1332,14 @@ if [ -n "$sbtk" ]; then
 nametn="Argo固定隧道token：$sbtk"
 fi
 argoshow=$(
-echo "Argo隧道端口正在使用$(cat $HOME/agsbx/vlvm 2>/dev/null)-ws主协议端口：$(cat $HOME/agsbx/argoport.log 2>/dev/null)
+echo "Argo隧道端口正在使用$vlvm-ws主协议端口：$(cat $HOME/agsbx/argoport.log 2>/dev/null)
 Argo域名：$argodomain
 $nametn
 
-1、💣443端口的vmess/vless-ws-tls-argo节点(优选IP与443系端口随便换)
+1、💣443端口的$vlvm-ws-tls-argo节点(优选IP与443系端口随便换)
 ${vmatls_link1}${vwatls_link1}
 
-2、💣80端口的vmess/vless-ws-argo节点(优选IP与80系端口随便换)
+2、💣80端口的$vlvm-ws-argo节点(优选IP与80系端口随便换)
 ${vma_link7}${vwa_link2}
 "
 )
