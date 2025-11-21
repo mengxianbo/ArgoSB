@@ -48,12 +48,12 @@
 | 10、启用hysteria2 | hypt | 端口指定 | 关闭hy2 | 端口随机 | 必选之一 【singbox内核：UDP】 |
 | 11、启用tuic | tupt | 端口指定 | 关闭tuic | 端口随机 | 必选之一 【singbox内核：UDP】 |
 | 12、warp开关 | warp | 详见下方15种warp出站模式图 | 关闭warp | singbox与xray内核协议都启用warp全局V4+V6 | 可选，详见下方15种warp出站模式图 |
-| 13、argo开关 | argo | 填写y | 关闭argo隧道 | 关闭argo隧道 | 可选，填写y时，vmess变量vmpt必须启用，且固定隧道必须填写vmpt端口 |
-| 14、argo固定隧道域名 | agn | 托管在CF上的域名 | 使用临时隧道 | 使用临时隧道 | 可选，argo填写y才可激活固定隧道|
-| 15、argo固定隧道token | agk | CF获取的ey开头的token | 使用临时隧道 | 使用临时隧道 | 可选，argo填写y才可激活固定隧道 |
+| 13、argo开关 | argo | 填写vwpt或者vmpt | 关闭argo隧道 | 关闭argo隧道 | 可选，填写vmpt或vwpt时，vmess-ws或vless-ws变量vmpt或vwpt必须启用，且固定隧道必须填写vmpt或vwpt端口 |
+| 14、argo固定隧道域名 | agn | 托管在CF上的域名 | 使用临时隧道 | 使用临时隧道 | 可选，argo填写vmpt或vwpt时才可激活固定隧道|
+| 15、argo固定隧道token | agk | CF获取的ey开头的token | 使用临时隧道 | 使用临时隧道 | 可选，argo填写vmpt或vwpt时才可激活固定隧道 |
 | 16、uuid密码 | uuid | 符合uuid规定格式 | 随机生成 | 随机生成 | 可选 |
 | 17、reality域名（仅支持reality类协议） | reym | 符合reality域名规定 | apple官网 | apple官网 | 可选，使用CF类域名时：服务器ip:节点端口的组合，可作为ProxyIP/客户端地址反代IP（建议高位端口或纯IPV6下使用，以防被扫泄露）|
-| 18、vmess-ws/vless-xhttp-v在客户端的host地址 | cdnym | CF解析IP的域名 | vmess-ws/vless-xhttp-v为直连 | vmess-ws/vless-xhttp-v为直连 | 可选，使用80系CDN或者回源CDN时可设置，否则客户端host地址需手动更改为CF解析IP的域名|
+| 18、vmess-ws、vless-xhttp/ws-enc在客户端的host地址 | cdnym | CF解析IP的域名 | vmess-ws、vless-xhttp/ws-enc为直连 | vmess-ws、vless-xhttp/ws-enc为直连 | 可选，使用80系CDN或者回源CDN时可设置，否则客户端host地址需手动更改为CF解析IP的域名|
 | 19、切换ipv4或ipv6配置 | ippz | 填写4或者6 | 自动识别IP配置 | 自动识别IP配置 | 可选，4表示IPV4配置输出，6表示IPV6配置输出 |
 | 20、添加所有节点名称前缀 | name | 任意字符 | 默认协议名前缀 | 默认协议名前缀 | 可选 |
 | 21、当前系统开放所有端口 | oap | 填写y | 禁止开放所有端口 | 禁止开放所有端口 | 可选，开启运行一次即可，后续删除变量，没必要每次运行 |
@@ -87,7 +87,7 @@
 
 * 如报错curl not found 可换用主脚本wget：```bash <(wget -qO- https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)```
 
-* 必选其一的协议端口变量：```vwpt=""```、```vmpt=""```、```vmpt="" argo="y"```、```vlpt=""```、```xhpt=""```、```anpt=""```、```arpt=""```、```hypt=""```、```tupt=""```、```sspt=""```、```vxpt=""```、```sopt=""```
+* 必选其一的协议端口变量：```vwpt=""```、```vmpt=""```、```vmpt="" argo="vmpt"```、```vwpt="" argo="vwpt"```、```vlpt=""```、```xhpt=""```、```anpt=""```、```arpt=""```、```hypt=""```、```tupt=""```、```sspt=""```、```vxpt=""```、```sopt=""```
 
 * 可选的功能类变量：```warp=""```、```uuid=""```、```reym=""```、```cdnym=""```、```argo=""```、```agn=""```、```agk=""```、```ippz=""```、```name=""```、```oap=""```
 
@@ -161,14 +161,24 @@ tupt="" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main
 
 Argo临时/固定隧道运行优选节点，类似无公网的IDX-Google-VPS容器推荐使用此脚本，快速一键内网穿透获取节点
 
-Argo临时隧道CDN优选节点
+Vmess-ws-argo临时隧道CDN优选节点
 ```
-vmpt="" argo="y" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
+vmpt="" argo="vmpt" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
 
-Argo固定隧道CDN优选节点，必须填写端口(vmpt)、域名(agn)、token(agk)
+Vless-ws-vision-enc-Argo临时隧道CDN优选节点
 ```
-vmpt="CF设置的URL端口" argo="y" agn="解析的CF域名" agk="CF获取的token" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
+vwpt="" argo="vwpt" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
+```
+
+Vmess-ws-argo-argo固定隧道CDN优选节点，必须填写端口(vmpt)、域名(agn)、token(agk)
+```
+vmpt="CF设置的URL端口" argo="vmpt" agn="解析的CF域名" agk="CF获取的token" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
+```
+
+Vless-ws-vision-enc-Argo固定隧道CDN优选节点，必须填写端口(vmpt)、域名(agn)、token(agk)
+```
+vwpt="CF设置的URL端口" argo="vwpt" agn="解析的CF域名" agk="CF获取的token" bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)
 ```
 
 Vmess-ws的80系端口、回源端口的CDN优选节点
