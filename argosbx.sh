@@ -266,6 +266,10 @@ echo "$port_vx" > "$HOME/agsbx/port_vx"
 fi
 port_vx=$(cat "$HOME/agsbx/port_vx")
 echo "Vless-xhttp-enc端口：$port_vx"
+if [ -n "$cdnym" ]; then
+echo "$cdnym" > "$HOME/agsbx/cdnym"
+echo "80系CDN或者回源CDN的host域名 (确保IP已解析在CF域名)：$cdnym"
+fi
 cat >> "$HOME/agsbx/xr.json" <<EOF
     {
       "tag":"vless-xhttp",
@@ -309,6 +313,10 @@ echo "$port_vw" > "$HOME/agsbx/port_vw"
 fi
 port_vw=$(cat "$HOME/agsbx/port_vw")
 echo "Vless-ws-enc端口：$port_vw"
+if [ -n "$cdnym" ]; then
+echo "$cdnym" > "$HOME/agsbx/cdnym"
+echo "80系CDN或者回源CDN的host域名 (确保IP已解析在CF域名)：$cdnym"
+fi
 cat >> "$HOME/agsbx/xr.json" <<EOF
     {
       "tag":"vless-ws",
