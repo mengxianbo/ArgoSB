@@ -200,7 +200,7 @@ vwpt="80系端口、指定回源端口" cdnym="CF解析IP的域名" bash <(curl 
 * #### 如下图：节点IP、端口被封依旧可用！套CDN优选4大方案：[点击视频教程](https://youtu.be/RnUT1CNbCr8)
 * #### 更新：CDN优选域名：yg1.ygkkk.dpdns.org (yg1中的1，可换为1-13中任意数字)
 
-<img width="1680" height="823" alt="bdeba707ad6843612a0c0a8fd8dade11" src="https://github.com/user-attachments/assets/fce5d3bd-3978-49b5-86b3-5e185e6183a6" />
+<img width="1680" height="823" alt="d65cb398ed08713650c9fd6b5fb8e4be" src="https://github.com/user-attachments/assets/5e86ab5f-3202-465d-a94c-038259989060" />
 
 ---------------------------------------------------------
 
