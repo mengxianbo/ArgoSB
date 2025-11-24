@@ -51,8 +51,7 @@ echo "更新脚本命令：原已安装的自定义各种协议变量组 主脚�
 echo "更新Xray或Singbox内核命令：agsbx upx或ups 【或者】 主脚本 upx或ups"
 echo "重启脚本命令：agsbx res 【或者】 主脚本 res"
 echo "卸载脚本命令：agsbx del 【或者】 主脚本 del"
-echo "双栈VPS显示IPv4节点配置命令：ippz=4 agsbx list 【或者】 ippz=4 主脚本 list"
-echo "双栈VPS显示IPv6节点配置命令：ippz=6 agsbx list 【或者】 ippz=6 主脚本 list"
+echo "双栈VPS显示IPv4/IPv6节点配置命令：ippz=4或6 agsbx list 【或者】 ippz=4或6 主脚本 list"
 echo "---------------------------------------------------------"
 echo
 }
@@ -1088,12 +1087,12 @@ argosbxstatus(){
 echo "=========当前三大内核运行状态========="
 procs=$(find /proc/*/exe -type l 2>/dev/null | grep -E '/proc/[0-9]+/exe' | xargs -r readlink 2>/dev/null)
 if echo "$procs" | grep -Eq 'agsbx/s' || pgrep -f 'agsbx/s' >/dev/null 2>&1; then
-echo "Sing-box：运行中  内核版本号：$("$HOME/agsbx/sing-box" version 2>/dev/null | awk '/version/{print $NF}')"
+echo "Sing-box($("$HOME/agsbx/sing-box" version 2>/dev/null | awk '/version/{print $NF}'))：运行中"
 else
 echo "Sing-box：未启用"
 fi
 if echo "$procs" | grep -Eq 'agsbx/x' || pgrep -f 'agsbx/x' >/dev/null 2>&1; then
-echo "Xray：运行中  内核版本号：$("$HOME/agsbx/xray" version 2>/dev/null | awk '/^Xray/{print $2}')"
+echo "Xray($("$HOME/agsbx/xray" version 2>/dev/null | awk '/^Xray/{print $2}'))：运行中"
 else
 echo "Xray：未启用"
 fi
