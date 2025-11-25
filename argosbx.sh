@@ -1040,6 +1040,7 @@ else
 echo "Argo$argoname隧道申请失败，请稍后再试"
 fi
 fi
+sleep 5
 echo
 if find /proc/*/exe -type l 2>/dev/null | grep -E '/proc/[0-9]+/exe' | xargs -r readlink 2>/dev/null | grep -Eq 'agsbx/(s|x)' || pgrep -f 'agsbx/(s|x)' >/dev/null 2>&1 ; then
 [ -f ~/.bashrc ] || touch ~/.bashrc
