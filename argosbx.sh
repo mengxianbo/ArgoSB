@@ -1439,11 +1439,9 @@ fi
 if [ -n "$( (command -v curl >/dev/null 2>&1 && curl -s6m5 -k "$v46url" 2>/dev/null) || (command -v wget >/dev/null 2>&1 && timeout 3 wget -6 -qO- --tries=2 "$v46url" 2>/dev/null) )" ]; then
 sendip="2606:4700:d0::a29f:c001"
 xendip="[2606:4700:d0::a29f:c001]"
-sbdnsyx="ipv6_only"
 else
 sendip="162.159.192.1"
 xendip="162.159.192.1"
-sbdnsyx="ipv4_only"
 fi
 echo "VPS系统：$op"
 echo "CPU架构：$cpu"
