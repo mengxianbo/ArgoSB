@@ -144,9 +144,12 @@ elif [ "$v4_ok" = true ] && [ "$v6_ok" != true ]; then
   case "$warp" in *x4*) xryx='ForceIPv4' ;; *) xryx='ForceIPv6v4' ;; esac
 elif [ "$v4_ok" != true ] && [ "$v6_ok" = true ]; then
   echo "只有 v6"
-  case "$warp" in *s6*) sbyx='ipv6_only' ;; *) sbyx='prefer_ipv6' ;; esac
-  case "$warp" in *x6*) xryx='ForceIPv6' ;; *) xryx='ForceIPv6v4' ;; esac
+  case "$warp" in *s4*) sbyx='prefer_ipv4' ;; *s6*) sbyx='ipv6_only' ;; *) sbyx='prefer_ipv4' ;; esac
+  case "$warp" in *x4*) xryx='ForceIPv4v6' ;; *x6*) xryx='ForceIPv6' ;; *) xryx='ForceIPv4v6' ;; esac
 fi
+
+ipv4_only
+
 }
 upxray(){
 url="https://github.com/yonggekkk/argosbx/releases/download/argosbx/xray-$cpu"; out="$HOME/agsbx/xray"; (command -v curl >/dev/null 2>&1 && curl -Lo "$out" -# --retry 2 "$url") || (command -v wget>/dev/null 2>&1 && timeout 3 wget -O "$out" --tries=2 "$url")
