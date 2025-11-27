@@ -148,8 +148,6 @@ elif [ "$v4_ok" != true ] && [ "$v6_ok" = true ]; then
   case "$warp" in *x4*) xryx='ForceIPv4v6' ;; *x6*) xryx='ForceIPv6' ;; *) xryx='ForceIPv4v6' ;; esac
 fi
 
-ipv4_only
-
 }
 upxray(){
 url="https://github.com/yonggekkk/argosbx/releases/download/argosbx/xray-$cpu"; out="$HOME/agsbx/xray"; (command -v curl >/dev/null 2>&1 && curl -Lo "$out" -# --retry 2 "$url") || (command -v wget>/dev/null 2>&1 && timeout 3 wget -O "$out" --tries=2 "$url")
