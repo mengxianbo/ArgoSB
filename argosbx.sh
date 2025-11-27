@@ -136,8 +136,8 @@ fi
 
 if [ "$v4_ok" = true ] && [ "$v6_ok" = true ]; then
   echo "v4 + v6 都有"
-  case "$warp" in *s4*) sbyx='ipv4_only' ;; *s6*) sbyx='ipv6_only' ;; *) sbyx='prefer_ipv6' ;; esac
-  case "$warp" in *x4*) xryx='ForceIPv4' ;; *x6*) xryx='ForceIPv6' ;; *) xryx='ForceIPv6v4' ;; esac
+  case "$warp" in *s4*) sbyx='prefer_ipv4' ;; *s6*) sbyx='prefer_ipv6' ;; *) sbyx='prefer_ipv6' ;; esac
+  case "$warp" in *x4*) xryx='ForceIPv4v6' ;; *x6*) xryx='ForceIPv6v4' ;; *) xryx='ForceIPv6v4' ;; esac
 elif [ "$v4_ok" = true ] && [ "$v6_ok" != true ]; then
   echo "只有 v4"
   case "$warp" in *s4*) sbyx='ipv4_only' ;; *) sbyx='prefer_ipv6' ;; esac
