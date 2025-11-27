@@ -1349,12 +1349,9 @@ echo "========================================================="
 echo "相关快捷方式如下：(首次安装成功后需重连SSH，agsbx快捷方式才可生效)"
 showmode
 }
-killargosbx(){
+cleandel(){
 for P in /proc/[0-9]*; do if [ -L "$P/exe" ]; then TARGET=$(readlink -f "$P/exe" 2>/dev/null); if echo "$TARGET" | grep -qE '/agsbx/c|/agsbx/s|/agsbx/x'; then PID=$(basename "$P"); kill "$PID" 2>/dev/null; fi; fi; done
 kill -15 $(pgrep -f 'agsbx/s' 2>/dev/null) $(pgrep -f 'agsbx/c' 2>/dev/null) $(pgrep -f 'agsbx/x' 2>/dev/null) >/dev/null 2>&1
-}
-cleandel(){
-killargosbx
 sed -i '/agsbx/d' ~/.bashrc
 sed -i '/export PATH="\$HOME\/bin:\$PATH"/d' ~/.bashrc
 . ~/.bashrc 2>/dev/null
@@ -1379,30 +1376,8 @@ done
 rm -rf /etc/init.d/{sing-box,xray,argo}
 fi
 }
-sbxrestart(){
-
-
-if pidof systemd >/dev/null 2>&1; then
-for svc in sb xr argo; do
-systemctl restart "$svc" >/dev/null 2>&1
-done
-elif command -v rc-service >/dev/null 2>&1; then
-for svc in sing-box xray argo; do
-rc-service "$svc" restart >/dev/null 2>&1
-done
-else
-nohup $HOME/agsbx/sing-box run -c $HOME/agsbx/sb.json >/dev/null 2>&1 &
-nohup $HOME/agsbx/xray run -c $HOME/agsbx/xr.json >/dev/null 2>&1 &
-fi
-
-if pidof systemd >/dev/null 2>&1; then
-systemctl restart sb >/dev/null 2>&1
-elif command -v rc-service >/dev/null 2>&1; then
-rc-service sing-box restart >/dev/null 2>&1
-else
-nohup $HOME/agsbx/sing-box run -c $HOME/agsbx/sb.json >/dev/null 2>&1 &
-fi
-
+xrestart(){
+kill -15 $(pgrep -f 'agsbx/x' 2>/dev/null) >/dev/null 2>&1
 if pidof systemd >/dev/null 2>&1; then
 systemctl restart xr >/dev/null 2>&1
 elif command -v rc-service >/dev/null 2>&1; then
@@ -1410,36 +1385,18 @@ rc-service xray restart >/dev/null 2>&1
 else
 nohup $HOME/agsbx/xray run -c $HOME/agsbx/xr.json >/dev/null 2>&1 &
 fi
-
-if pidof systemd >/dev/null 2>&1; then
-systemctl restart argo >/dev/null 2>&1
-elif command -v rc-service >/dev/null 2>&1; then
-rc-service argo restart >/dev/null 2>&1
-else
-if [ -e "$HOME/agsbx/sbargotoken.log" ]; then
-if ! pidof systemd >/dev/null 2>&1 && ! command -v rc-service >/dev/null 2>&1; then
-nohup $HOME/agsbx/cloudflared tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run --token $(cat $HOME/agsbx/sbargotoken.log 2>/dev/null) >/dev/null 2>&1 &
-fi
-else
-nohup $HOME/agsbx/cloudflared tunnel --url http://localhost:$(cat $HOME/agsbx/argoport.log 2>/dev/null) --edge-ip-version auto --no-autoupdate --protocol http2 > $HOME/agsbx/argo.log 2>&1 &
-fi
-fi
-
-
-
-
-if [ -e "$HOME/agsbx/sbargotoken.log" ]; then
-if ! pidof systemd >/dev/null 2>&1 && ! command -v rc-service >/dev/null 2>&1; then
-nohup $HOME/agsbx/cloudflared tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run --token $(cat $HOME/agsbx/sbargotoken.log 2>/dev/null) >/dev/null 2>&1 &
-fi
-else
-nohup $HOME/agsbx/cloudflared tunnel --url http://localhost:$(cat $HOME/agsbx/argoport.log 2>/dev/null) --edge-ip-version auto --no-autoupdate --protocol http2 > $HOME/agsbx/argo.log 2>&1 &
-fi
-
-
-sleep 8
-echo "重启完成"
 }
+sbrestart(){
+kill -15 $(pgrep -f 'agsbx/s' 2>/dev/null) >/dev/null 2>&1
+if pidof systemd >/dev/null 2>&1; then
+systemctl restart sb >/dev/null 2>&1
+elif command -v rc-service >/dev/null 2>&1; then
+rc-service sing-box restart >/dev/null 2>&1
+else
+nohup $HOME/agsbx/sing-box run -c $HOME/agsbx/sb.json >/dev/null 2>&1 &
+fi
+}
+
 if [ "$1" = "del" ]; then
 cleandel
 rm -rf "$HOME/agsbx" "$HOME/agsb"
@@ -1457,18 +1414,28 @@ elif [ "$1" = "list" ]; then
 cip
 exit
 elif [ "$1" = "upx" ]; then
-killargosbx ; upxray ; sbxrestart ; cip
-echo "Xray内核更新完成"
+for P in /proc/[0-9]*; do [ -L "$P/exe" ] || continue; TARGET=$(readlink -f "$P/exe" 2>/dev/null) || continue; case "$TARGET" in *"/agsbx/x"*) kill "$(basename "$P")" 2>/dev/null ;; esac; done
+kill -15 $(pgrep -f 'agsbx/x' 2>/dev/null) >/dev/null 2>&1
+upxray && xrestart && echo "Xray内核更新完成" && sleep 2 && cip
 exit
 elif [ "$1" = "ups" ]; then
-killargosbx ; upsingbox ; sbxrestart ; cip
-echo "Sing-box内核更新完成"
+for P in /proc/[0-9]*; do [ -L "$P/exe" ] || continue; TARGET=$(readlink -f "$P/exe" 2>/dev/null) || continue; case "$TARGET" in *"/agsbx/s"*) kill "$(basename "$P")" 2>/dev/null ;; esac; done
+kill -15 $(pgrep -f 'agsbx/s' 2>/dev/null) >/dev/null 2>&1
+upsingbox && sbrestart && echo "Sing-box内核更新完成" && sleep 2 && cip
 exit
 elif [ "$1" = "res" ]; then
 for P in /proc/[0-9]*; do
 [ -L "$P/exe" ] || continue
 TARGET=$(readlink -f "$P/exe" 2>/dev/null) || continue
 case "$TARGET" in
+*"/agsbx/s"*)
+kill "$(basename "$P")" 2>/dev/null
+sbrestart
+;;
+*"/agsbx/x"*)
+kill "$(basename "$P")" 2>/dev/null
+xrestart
+;;
 *"/agsbx/c"*)
 kill "$(basename "$P")" 2>/dev/null
 kill -15 $(pgrep -f 'agsbx/c' 2>/dev/null) >/dev/null 2>&1
@@ -1486,31 +1453,9 @@ nohup $HOME/agsbx/cloudflared tunnel --url http://localhost:$(cat $HOME/agsbx/ar
 fi
 fi
 ;;
-*"/agsbx/s"*)
-kill "$(basename "$P")" 2>/dev/null
-kill -15 $(pgrep -f 'agsbx/s' 2>/dev/null) >/dev/null 2>&1
-if pidof systemd >/dev/null 2>&1; then
-systemctl restart sb >/dev/null 2>&1
-elif command -v rc-service >/dev/null 2>&1; then
-rc-service sing-box restart >/dev/null 2>&1
-else
-nohup $HOME/agsbx/sing-box run -c $HOME/agsbx/sb.json >/dev/null 2>&1 &
-fi
-;;
-*"/agsbx/x"*)
-kill "$(basename "$P")" 2>/dev/null
-kill -15 $(pgrep -f 'agsbx/x' 2>/dev/null) >/dev/null 2>&1
-if pidof systemd >/dev/null 2>&1; then
-systemctl restart xr >/dev/null 2>&1
-elif command -v rc-service >/dev/null 2>&1; then
-rc-service xray restart >/dev/null 2>&1
-else
-nohup $HOME/agsbx/xray run -c $HOME/agsbx/xr.json >/dev/null 2>&1 &
-fi
-;;
 esac
 done
-cip
+sleep 5 && echo "重启完成" && sleep 3 && cip
 exit
 fi
 if ! find /proc/*/exe -type l 2>/dev/null | grep -E '/proc/[0-9]+/exe' | xargs -r readlink 2>/dev/null | grep -Eq 'agsbx/(s|x)' && ! pgrep -f 'agsbx/(s|x)' >/dev/null 2>&1; then
